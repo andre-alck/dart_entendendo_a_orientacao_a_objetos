@@ -1,40 +1,54 @@
 void main() {
-  String nome = 'laranja';
-  double peso = 100.2;
-  String corDaFruta = 'Verde e Amarela';
-  String sabor = 'Doce e cítrica';
-  int diasDesdeAColheita = 20;
-  bool isMadura;
+  Fruta fruta01 = Fruta("Banana", 100, 'Amarela', 'Doce', 15);
+  Fruta fruta02 = Fruta("Laranja", 75, 'Laranja', 'Azeda', 30);
+  Fruta fruta03 = Fruta.nomeados(
+      nome: 'Limão',
+      peso: 50,
+      corDaFruta: 'Verde',
+      sabor: 'Azeda',
+      diasDesdeAColheita: 60);
+  Fruta fruta04 = Fruta.minusculas("Ameixa", 50, 'Vinho', 'Doce', 15);
 
-  isMadura = funcEstaMadura(diasDesdeAColheita);
-  print(isMadura);
+  print(fruta01.nome);
+  print(fruta02.nome);
+  print(fruta03.nome);
+  print(fruta04.nome);
 
-  mostrarMadura(30, nome: nome);
-  mostrarMadura(30, nome: nome, corDaFruta: corDaFruta);
-  mostrarMadura(30, nome: nome, corDaFruta: corDaFruta, sabor: "Ok.");
-
-  int diasAteAmadurecer = funcDiasAteAmadurecer(diasDesdeAColheita);
-  print(diasAteAmadurecer);
+  print(fruta01.estaMadura(10));
+  print(fruta02.estaMadura(20));
+  print(fruta03.estaMadura(30));
+  print(fruta04.estaMadura(40));
 }
 
-bool funcEstaMadura(int diasDesdeAColheita) {
-  return diasDesdeAColheita >= 30;
-}
+class Fruta {
+  String nome;
+  double peso;
+  String corDaFruta;
+  String sabor;
+  int diasDesdeAColheita;
+  bool? isMadura;
 
-void mostrarMadura(int diasDesdeAColheita, {String? corDaFruta, String sabor = "Ok", required String nome}) {
-  if (diasDesdeAColheita >= 30) {
-    if (corDaFruta != null) {
-      print('A $nome está madura. Sua cor é $corDaFruta. Seu sabor é $sabor.');
-    } else {
-      print('A $nome está madura. Seu sabor é $sabor.');
-    }
-  } else {
-    print('A $nome não está madura. Seu sabor é $sabor.');
+  Fruta(this.nome, this.peso, this.corDaFruta, this.sabor,
+      this.diasDesdeAColheita,
+      {this.isMadura});
+
+  Fruta.nomeados(
+      {required this.nome,
+      required this.peso,
+      required this.corDaFruta,
+      required this.sabor,
+      required this.diasDesdeAColheita,
+      this.isMadura});
+
+  Fruta.minusculas(this.nome, this.peso, this.corDaFruta, this.sabor,
+      this.diasDesdeAColheita,
+      {this.isMadura}) {
+    nome = nome.toLowerCase();
+    corDaFruta = corDaFruta.toLowerCase();
+    sabor = sabor.toLowerCase();
   }
-}
 
-funcDiasAteAmadurecer(int diasDesdeAColheita) {
-  int totalDeDiasParaAmadurecer = 30;
-  int quantosDiasFaltam = totalDeDiasParaAmadurecer - diasDesdeAColheita;
-  return quantosDiasFaltam;
+  String estaMadura(int diasAteAmadurecer) {
+    return 'Sua $nome está madura? ${diasDesdeAColheita >= diasAteAmadurecer}';
+  }
 }
