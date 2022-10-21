@@ -1,4 +1,4 @@
-main() {
+void main() {
   Alimento arroz = Alimento("Arroz", 1.0, "Branco");
   Fruta banana = Fruta('Banana', 50.0, 'Amarela', 'Doce', 7);
   Legume chuchu = Legume('Chuchu', 100.0, 'Verde', true);
@@ -13,8 +13,14 @@ main() {
 
   banana.fazerSuco();
   chuchu.cozinhar();
-  limao.provar();
+  limao.proteger();
   macadamia.quebrar();
+
+  // arroz.fazerMassa();
+  banana.fazerMassa();
+  chuchu.fazerMassa();
+  limao.fazerMassa();
+  macadamia.fazerMassa();
 }
 
 class Alimento {
@@ -29,7 +35,7 @@ class Alimento {
   }
 }
 
-class Fruta extends Alimento {
+class Fruta extends Alimento implements Bolo {
   String sabor;
   int diasDesdeAColheita;
   bool? isMadura;
@@ -46,9 +52,24 @@ class Fruta extends Alimento {
   void fazerSuco() {
     print('Suco de $nome!');
   }
+
+  @override
+  void separarIngredientes() {
+    print('Pegando a fruta $nome e ingredientes.');
+  }
+
+  @override
+  void fazerMassa() {
+    print('Misturando o(a) $nome com ingredientes.');
+  }
+
+  @override
+  void assar() {
+    print('Colocando a massa no forno.');
+  }
 }
 
-class Legume extends Alimento {
+class Legume extends Alimento implements Bolo {
   bool isPrecisaCozinhar;
 
   Legume(String nome, double peso, String cor, this.isPrecisaCozinhar)
@@ -61,6 +82,21 @@ class Legume extends Alimento {
       print('Este legume não precisa ser cozido.');
     }
   }
+
+  @override
+  void separarIngredientes() {
+    print('Pegando o legume $nome e ingredientes.');
+  }
+
+  @override
+  void fazerMassa() {
+    print('Misturando o(a) $nome com ingredientes.');
+  }
+
+  @override
+  void assar() {
+    print('Colocando a massa no forno.');
+  }
 }
 
 class Citricas extends Fruta {
@@ -70,9 +106,15 @@ class Citricas extends Fruta {
       int diasDesdeAColheita, this.nivelDeAzedo)
       : super(nome, peso, cor, sabor, diasDesdeAColheita);
 
-  void provar() {
-    print('Azedo...');
+  void proteger() {
+    print('Colocando óculos de proteção.');
   }
+  @override
+  void fazerMassa() {
+    proteger();
+    super.fazerMassa();
+  }
+
 }
 
 class Nozes extends Fruta {
@@ -83,6 +125,18 @@ class Nozes extends Fruta {
       : super(nome, peso, cor, sabor, diasDesdeAColheita);
 
   void quebrar() {
-    print('Muito resistente.');
+    print('Quebrando a noz.');
   }
+
+  @override
+  void fazerMassa() {
+    quebrar();
+    super.fazerMassa();
+  }
+}
+
+abstract class Bolo {
+  void separarIngredientes();
+  void fazerMassa();
+  void assar();
 }
